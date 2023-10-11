@@ -1,27 +1,25 @@
-from pymongo import MongoClient
-from pymongo.server_api import ServerApi
+import connect
+from models import Authors, Qoutes
+
 import json
-
-
-client = MongoClient(
-    "mongodb+srv://kseniiavoitko:kJwOlfANt8JTrQ1S@kseniia.fbnhbdy.mongodb.net/",
-    server_api=ServerApi("1"),
-)
-
-db = client.learnMongoDB
-
-collection_currency = db["authors"]
 
 with open("authors.json") as f:
     file_data = json.load(f)
 
-collection_currency.insert_many(file_data)
-
-collection_currency = db["qoutes"]
+for item in file_data:
+    Authors(**item).save()
 
 with open("qoutes.json") as f:
     file_data = json.load(f)
 
-collection_currency.insert_many(file_data)
+for item in file_data:
+    qoute = Qoutes(
+        tags=item["tags"],
+        quote=item["quote"],
+    )
 
-client.close()
+    find_author = Authors.objects(fullname=item["author"])
+    if find_author.count() >= 1:
+        qoute.author = find_author[0]
+
+    qoute.save()
