@@ -3,13 +3,13 @@ from models import Authors, Qoutes
 
 import json
 
-with open("authors.json") as f:
+with open("authors.json", errors="ignore") as f:
     file_data = json.load(f)
 
 for item in file_data:
     Authors(**item).save()
 
-with open("qoutes.json") as f:
+with open("qoutes.json", errors="ignore") as f:
     file_data = json.load(f)
 
 for item in file_data:

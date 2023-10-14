@@ -9,6 +9,6 @@ class Authors(Document):
 
 
 class Qoutes(Document):
-    tags = ListField(StringField(max_length=30))
+    tags = ListField(StringField(max_length=50))
     author = ReferenceField(Authors, reverse_delete_rule=CASCADE)
     quote = StringField()
